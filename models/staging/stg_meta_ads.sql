@@ -1,0 +1,1 @@
+select * from {{ source('Styli_Marketing_dataset', 'Meta_Ads') }}
