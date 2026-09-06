@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: Styli_Marketing_dataset
+    database: project-02-507714
+    schema: Styli_Marketing_dataset
+    tables:
+      - name: Analytics_dump
+      - name: Google_Ads
+      - name: Meta_Ads
+
+ 
