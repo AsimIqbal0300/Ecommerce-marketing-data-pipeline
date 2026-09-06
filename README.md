@@ -4,7 +4,7 @@
 
 This project is an end-to-end data pipeline built to solve a real problem faced by digital marketing agencies: consolidating fragmented advertising and analytics data from multiple paid channels into a single, reliable source of truth for reporting.
 
-E-commerce brands typically run ads across several platforms simultaneously — Google, Meta, Snapchat — while also tracking on-site behavior through GA4. Each of these platforms exposes data through its own API, its own schema, and its own quirks. Left unmanaged, this leads to scattered spreadsheets, inconsistent metrics, and dashboards that are painful to trust or maintain.
+E-commerce brands typically run ads across multiple platforms simultaneously — Google and Meta — while also tracking on-site behavior through GA4. Each of these platforms exposes data through its own API, its own schema, and its own quirks. Left unmanaged, this leads to scattered spreadsheets, inconsistent metrics, and dashboards that are painful to trust or maintain.
 
 This pipeline automates the entire journey from raw platform data to a clean, business-ready reporting layer — removing manual data pulls and giving marketing and leadership teams a single, accurate view of paid performance.
 
@@ -12,8 +12,7 @@ This pipeline automates the entire journey from raw platform data to a clean, bu
 
 ```
 Google Ads ─┐
-Meta Ads ────┤
-Snapchat Ads ┼──▶  Airbyte  ──▶  BigQuery  ──▶  dbt  ──▶  Power BI / Looker Studio
+Meta Ads ────┼──▶  Airbyte  ──▶  BigQuery  ──▶  dbt  ──▶  Power BI / Looker Studio
 GA4 ─────────┘
    (Sources)      (Ingestion)   (Warehouse)  (Transform)      (Reporting)
 ```
@@ -30,7 +29,6 @@ GA4 ─────────┘
 |---|---|
 | Google Ads | Campaign spend, clicks, impressions, conversions |
 | Meta Ads | Campaign spend, clicks, impressions, conversions |
-| Snapchat Ads | Campaign spend, clicks, impressions, conversions |
 | GA4 | Website sessions, user behavior, on-site conversions |
 
 ## Tech Stack
@@ -67,7 +65,7 @@ Agencies and in-house marketing teams managing multiple brands or ad accounts fa
 - Add orchestration (e.g. Dagster) to monitor and schedule syncs across all sources
 - Incremental models in dbt to reduce processing cost as data volume grows
 - CI/CD pipeline for automated dbt testing on every commit
-- Support for additional channels (TikTok Ads, Apple Ads)
+- Support for additional channels (Snapchat Ads, TikTok Ads, Apple Ads)
 
 ---
 
