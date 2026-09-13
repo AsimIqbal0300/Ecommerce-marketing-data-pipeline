@@ -1,2 +1,2 @@
 select * ,'Google' as Channel 
-from {{ ref('stg_google_ads.sql') }}
+from {{ ref('stg_google_ads') }}
