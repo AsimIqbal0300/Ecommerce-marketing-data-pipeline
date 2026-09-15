@@ -3,11 +3,11 @@ with paid as (
         date,
         trim(Campaign_name)   as campaign_name,
         Channel                as channel,
-        sum(Impressions)       as impressions,
-        sum(Clicks)            as clicks,
-        sum(Cost)               as cost,
-        sum(Revenue_Paid)       as revenue_paid,
-        sum(Orders_paid)        as orders_paid
+        sum(cast(Impressions as float64))    as impressions,
+        sum(cast(Clicks as float64))          as clicks,
+        sum(Cost)                              as cost,
+        sum(Revenue_paid)                      as revenue_paid,
+        sum(cast(Orders_paid as float64))     as orders_paid
     from {{ ref('int_PaidChannel_union') }}
     group by 1, 2, 3
 ),
@@ -17,12 +17,12 @@ ga4 as (
         date,
         trim(Campaign_name)   as campaign_name,
         Channel                as channel,
-        sum(Sessions)                                   as sessions,
-        sum(Orders)                                      as orders_ga4,
-        sum(Revenue)                                     as revenue_ga4,
-        sum(Key_event_count_for_add_to_cart)             as add_to_cart,
-        sum(Key_event_count_for_begin_checkout)          as begin_checkout,
-        sum(Key_event_count_for_view_item)               as view_item
+        sum(cast(Sessions as float64))                              as sessions,
+        sum(cast(Orders as float64))                                as orders_ga4,
+        sum(Revenue)                                                 as revenue_ga4,
+        sum(cast(Key_event_count_for_add_to_cart as float64))       as add_to_cart,
+        sum(cast(Key_event_count_for_begin_checkout as float64))    as begin_checkout,
+        sum(cast(Key_event_count_for_view_item as float64))         as view_item
     from {{ ref('int_ga4_channel-currency_col') }}
     group by 1, 2, 3
 )
