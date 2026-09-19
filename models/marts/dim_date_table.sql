@@ -1,7 +1,7 @@
 with date_bounds as (
     select 
           date('2024-01-01') as start_date,
-          date_add(max(date), interval 1 month) as end_date
+          date_add(max(cast(date as date)), interval 1 month) as end_date
    from {{ ref('int_paid_union_ga4') }}
 ),
  calendar as (

@@ -1,0 +1,1 @@
+select * from {{ ref('int_paid_union_ga4') }}
