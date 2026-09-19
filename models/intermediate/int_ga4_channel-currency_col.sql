@@ -1,3 +1,4 @@
+with ga4_table as (
 select * except (Revenue_SAR),
       cast(Revenue_SAR as float64) * 0.98 as Revenue,
       case
@@ -7,3 +8,6 @@ select * except (Revenue_SAR),
          end as Channel
 from
     {{ ref('stg_ga4') }}         
+)
+select * from ga4_table
+where Channel <> 'Others'
