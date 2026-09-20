@@ -17,6 +17,7 @@ ga4 as (
         date,
         trim(Campaign_name)   as campaign_name,
         Channel                as channel,
+        trim(Source___Medium)  as Source_Medium,
         sum(cast(Sessions as float64))                              as sessions,
         sum(cast(Orders as float64))                                as orders_ga4,
         sum(Revenue)                                                 as revenue_ga4,
@@ -24,13 +25,19 @@ ga4 as (
         sum(cast(Key_event_count_for_begin_checkout as float64))    as begin_checkout,
         sum(cast(Key_event_count_for_view_item as float64))         as view_item
     from {{ ref('int_ga4_channel-currency_col') }}
-    group by 1, 2, 3
+    group by 1, 2, 3, 4
 )
 
 select
     coalesce(p.date, g.date)                    as date,
+    CONCAT(
+    COALESCE(p.campaign_name, g.campaign_name, '__NULL__'),
+    '-',
+    COALESCE(p.channel, g.channel, '__NULL__')
+          ) AS campaign_channel_key,
     coalesce(p.campaign_name, g.campaign_name)  as campaign_name,
     coalesce(p.channel, g.channel)              as channel,
+    coalesce(g.Source_Medium,'unknown')         as Source_Medium,
     coalesce(p.impressions, 0)                  as impressions,
     coalesce(p.clicks, 0)                       as clicks,
     coalesce(p.cost, 0)                         as cost,

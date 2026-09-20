@@ -1,6 +1,7 @@
 with base as (
 
     select distinct
+        CONCAT(coalesce(campaign_name,'__NULL__'),'-',coalesce(channel,'__NULL__')) as campaign_channel_key,
         campaign_name,
         channel,
 
