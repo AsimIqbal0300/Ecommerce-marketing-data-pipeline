@@ -119,6 +119,7 @@ with base as (
 )
 
 select
+    campaign_channel_key,
     campaign_name,
     channel,
     market,
