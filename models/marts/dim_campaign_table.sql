@@ -1,9 +1,14 @@
 with base as (
 
     select distinct
-        CONCAT(coalesce(campaign_name,'__NULL__'),'-',coalesce(channel,'__NULL__')) as campaign_channel_key,
-        campaign_name,
-        channel,
+        CONCAT(
+    COALESCE(LOWER(campaign_name), '__NULL__'),
+    '-',
+    COALESCE(LOWER(channel), '__NULL__')
+) AS campaign_channel_key,
+
+campaign_name,
+channel,
 
         -- ===================== MARKET =====================
         case

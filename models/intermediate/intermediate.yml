@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: int_google_ads_channel-currency_col
+    description: "Standardized the Column names of the Google Ads Data source.The cost and revenue metrics were converted into required Currency formats.
+                  Channel column was also added as a source identifier "
+    
+    columns:
+      - name: date
+        description: "Dates on which campaigns were advertised"
+        data_tests:
+          - not_null
+      - name: Channel
+        description: "It contains name of Paid Ads Data Source"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Google']         
+
+  - name: int_meta_ads_channel-currency_col
+    description: "Standardized the Column names of the Meta Ads Data source.The cost and revenue metrics were converted into required Currency formats.
+                  Channel column was also added as a source identifier "
+    
+    columns:
+      - name: date
+        description: "Dates on which campaigns were advertised"
+        data_tests:
+          - not_null
+      - name: Channel
+        description: "It contains name of Paid Ads Data Source"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Meta']
+
+  - name: int_ga4_channel-currency_col
+    description: "This file contains standardized data from GA4 source.Channel column is added as per mapping given by the team.The currencies are also 
+                  converted into required formats"
+    
+    columns:
+      - name: date
+        description: "Dates on which campaigns were advertised"
+        data_tests:
+          - not_null
+          
+      - name: Channel
+        description: "Contains mapped channel names"
+
+        data_tests:
+         - accepted_values:
+            values: ['Google','Meta']
+           
+
+  - name: int_PaidChannel_union
+    description: "In this file we have appended/union both Paid channel data over each other to get a unified paid channel platform"
+
+    columns:
+      - name: date
+        description: "Contains date from Meta and Google ad sources for the campaigns on which they were executed"
+
+        data_tests:
+          - not_null
+
+      - name: Channel
+        description: "Contains Channel name from which data in incoming"
+
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Google','Meta']
+
+  - name: int_paid_union_ga4
+    description: "In this file we have joined the two tables 'int_PaidChannel_union' and 'int_ga4_channel-currency_col' using and outer join and coalesce logic.
+                  to handle null values . Tables are joined on date, campaign name , Channel.A Campaign-channel is created as a unique identifier"
+    columns:
+      - name: date
+        description: "Date on which campaigns were run"
+
+        data_tests:
+          - not_null
+          
+      - name: campaign name
+        description: "This column holds names of ad campaigns run"
+
+      - name: channel
+        description: " contains names of paid channels for which ads were run"
+
+        data_tests:
+          - accepted_values:
+              values: ['Google','Meta'] 
+                
+                   
+                    
+          
+          
+

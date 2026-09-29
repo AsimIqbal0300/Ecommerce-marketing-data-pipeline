@@ -1,8 +1,8 @@
 with paid as (
     select
         date,
-        trim(Campaign_name)   as campaign_name,
-        Channel                as channel,
+        lower(trim(Campaign_name))   as campaign_name,
+        lower(Channel)                as channel,
         sum(cast(Impressions as float64))    as impressions,
         sum(cast(Clicks as float64))          as clicks,
         sum(Cost)                              as cost,
@@ -15,8 +15,8 @@ with paid as (
 ga4 as (
     select
         date,
-        trim(Campaign_name)   as campaign_name,
-        Channel                as channel,
+        lower(trim(Campaign_name))   as campaign_name,
+        lower(Channel)                as channel,
         trim(Source___Medium)  as Source_Medium,
         sum(cast(Sessions as float64))                              as sessions,
         sum(cast(Orders as float64))                                as orders_ga4,
@@ -29,12 +29,12 @@ ga4 as (
 )
 
 select
-    coalesce(p.date, g.date)                    as date,
-    CONCAT(
-    COALESCE(p.campaign_name, g.campaign_name, '__NULL__'),
+    coalesce(p.date,g.date) as date,
+    concat(
+    coalesce(coalesce(p.campaign_name, g.campaign_name), '__NULL__'),
     '-',
-    COALESCE(p.channel, g.channel, '__NULL__')
-          ) AS campaign_channel_key,
+    coalesce(coalesce(p.channel, g.channel), '__NULL__')   
+          ) as campaign_channel_key,
     coalesce(p.campaign_name, g.campaign_name)  as campaign_name,
     coalesce(p.channel, g.channel)              as channel,
     coalesce(g.Source_Medium,'unknown')         as Source_Medium,
