@@ -1,0 +1,119 @@
+version: 2
+
+
+models:
+
+  - name: dim_date_table
+    description: "Calendar dimension table generated from Jan 1, 2024 through one month past the latest date in fact_combinedtable_paid_ga4. Provides date, year, month, day, and weekend breakdowns for time-based filtering and reporting."
+
+    columns:
+
+      - name: date
+        description: "Calendar date, one row per day. Primary key of this dimension table."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: year
+        description: "Calendar year extracted from date."
+        data_tests:
+          - not_null
+
+      - name: month
+        description: "Calendar month as a number (1-12)."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+      - name: month_name
+        description: "Abbreviated month name (e.g. Jan, Feb) for display purposes."
+        data_tests:
+          - not_null
+
+      - name: day
+        description: "Day of month (1-31)."
+        data_tests:
+          - not_null
+
+      - name: day_name
+        description: "Full day name (e.g. Monday, Tuesday) for display purposes."
+        data_tests:
+          - not_null
+
+      - name: day_of_week
+        description: "Numeric day of week as returned by BigQuery EXTRACT(DAYOFWEEK), where 1 = Sunday and 7 = Saturday."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 7]
+
+      - name: weekend_days
+        description: "Boolean flag that is TRUE when the date falls on Saturday or Sunday."
+        data_tests:
+          - not_null
+
+  - name: dim_campaign_table
+    description: "Dimension table comprising multiple columns derived from campaign_name based on team-provided mapping rules. Includes campaign_type, objective, funnel, market, category, and budget_type. One row per unique campaign_channel_key."
+
+    columns:
+      - name: campaign_channel_key
+        description: "Composite unique key (lowercased campaign_name + channel, concatenated) used to join against fact_combinedtable_paid_ga4. Ensures uniqueness even when campaign_name alone is ambiguous or null."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: campaign_name
+        description: "Name of the ad campaign as reported by the source platform (Google Ads, Meta Ads, or GA4)"
+        data_tests:
+          - not_null
+
+      - name: channel
+        description: "Advertising channel the campaign belongs to"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Google', 'Meta']
+
+      - name: market
+        description: "Market/region derived from campaign_name pattern matching (e.g. UAE, KSA, KWT, BAH, QAT, OMAN, or Other)"
+        data_tests:
+          - not_null
+
+      - name: campaign_type
+        description: "Campaign type derived from campaign_name pattern matching (e.g. App Install, PMAX, Shopping, Search, Prospecting, Remarketing, or Other)"
+        data_tests:
+          - not_null
+
+      - name: objective
+        description: "Campaign objective derived from campaign_name pattern matching (Conversion, Traffic, Awareness, or Other)"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Conversion', 'Traffic', 'Awareness', 'Other']
+
+      - name: category
+        description: "Audience/product category derived from campaign_name pattern matching (Unisex, Women, Female, Men, Male, Kids, Beauty, or Other)"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Unisex', 'Women', 'Female', 'Men', 'Male', 'Kids', 'Beauty', 'Other']
+
+      - name: budget_type
+        description: "Budget classification derived from campaign_name pattern matching (Performance, Branding, or Other)"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Performance', 'Branding', 'Other']
+
+      - name: funnel
+        description: "Funnel stage derived from campaign_type (App Install, Acquisition, Remarketing, Awareness, Traffic, or Other)"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['App Install', 'Acquisition', 'Remarketing', 'Awareness', 'Traffic', 'Other']
+
+  - name: fact_combinedtable_paid_ga4
+    description: " It contains the same data as int_paid_union_ga4"
+
+      
