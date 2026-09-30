@@ -19,7 +19,6 @@ An end-to-end analytics engineering pipeline that ingests paid advertising and w
 - [Dashboard — Power BI](#dashboard--power-bi)
 - [Key Challenges & Decisions](#key-challenges--decisions)
 - [Project Structure](#project-structure)
-- [Future Improvements](#future-improvements)
 
 ---
 
