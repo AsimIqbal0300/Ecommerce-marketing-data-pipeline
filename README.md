@@ -127,6 +127,8 @@ Final, BI-ready star schema.
 - `dim_date_table.sql` — generated calendar dimension, dynamically bounded from a fixed start date to one month past the latest fact data
 - `fact_combinedtable_paid_ga4.sql` — the fact table; one row per date × campaign_channel_key, holding every performance measure
 
+<img width="1255" height="419" alt="Image" src="https://github.com/user-attachments/assets/a79f8fdd-e09e-4717-b875-4c9b625cbbb9" />
+
 ---
 
 ## Data Model
