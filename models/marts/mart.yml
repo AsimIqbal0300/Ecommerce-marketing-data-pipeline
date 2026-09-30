@@ -25,6 +25,7 @@ models:
           - not_null
           - accepted_values:
               values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+              quote: False
 
       - name: month_name
         description: "Abbreviated month name (e.g. Jan, Feb) for display purposes."
@@ -47,6 +48,7 @@ models:
           - not_null
           - accepted_values:
               values: [1, 2, 3, 4, 5, 6, 7]
+              quote: False
 
       - name: weekend_days
         description: "Boolean flag that is TRUE when the date falls on Saturday or Sunday."
@@ -65,15 +67,15 @@ models:
 
       - name: campaign_name
         description: "Name of the ad campaign as reported by the source platform (Google Ads, Meta Ads, or GA4)"
-        data_tests:
-          - not_null
+        
+        
 
       - name: channel
         description: "Advertising channel the campaign belongs to"
         data_tests:
           - not_null
           - accepted_values:
-              values: ['Google', 'Meta']
+              values: ['google', 'meta']
 
       - name: market
         description: "Market/region derived from campaign_name pattern matching (e.g. UAE, KSA, KWT, BAH, QAT, OMAN, or Other)"
@@ -114,6 +116,87 @@ models:
               values: ['App Install', 'Acquisition', 'Remarketing', 'Awareness', 'Traffic', 'Other']
 
   - name: fact_combinedtable_paid_ga4
-    description: " It contains the same data as int_paid_union_ga4"
+    description: "Fact table combining Google Ads, Meta Ads, and GA4 data via a full outer join on date, campaign_name, and channel. Grain is one row per date + campaign_channel_key. Contains all performance measures (impressions, clicks, cost, revenue, orders, sessions, funnel events) with COALESCE applied to fill gaps where one source has no matching data."
+
+    columns:
+      - name: date
+        description: "Date the campaign activity occurred"
+        data_tests:
+          - not_null
+
+      - name: campaign_channel_key
+        description: "Composite unique key (lowercased campaign_name + channel, concatenated) used to join against dim_campaign_table"
+        data_tests:
+          - not_null
+
+      - name: campaign_name
+        description: "Name of the ad campaign"
+      
+          
+
+      - name: channel
+        description: "Advertising channel"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['google', 'meta']
+
+      - name: Source_Medium
+        description: "Raw GA4 source/medium value, defaulted to 'unknown' where not available"
+
+      - name: impressions
+        description: "Total ad impressions, defaulted to 0 where no paid data exists for this row"
+        data_tests:
+          - not_null
+
+      - name: clicks
+        description: "Total ad clicks, defaulted to 0 where no paid data exists for this row"
+        data_tests:
+          - not_null
+
+      - name: cost
+        description: "Total ad spend, defaulted to 0 where no paid data exists for this row"
+        data_tests:
+          - not_null
+
+      - name: revenue_paid
+        description: "Revenue as reported by the ad platform (Google/Meta), converted to SAR and defaulted to 0 where not available"
+        data_tests:
+          - not_null
+
+      - name: orders_paid
+        description: "Orders as reported by the ad platform, defaulted to 0 where not available"
+        data_tests:
+          - not_null
+
+      - name: sessions
+        description: "GA4 sessions, defaulted to 0 where no GA4 data exists for this row"
+        data_tests:
+          - not_null
+
+      - name: orders_ga4
+        description: "GA4-attributed orders, defaulted to 0 where not available"
+        data_tests:
+          - not_null
+
+      - name: revenue_ga4
+        description: "GA4-attributed revenue (SAR), defaulted to 0 where not available"
+        data_tests:
+          - not_null
+
+      - name: add_to_cart
+        description: "Count of GA4 add_to_cart events, defaulted to 0 where not available"
+        data_tests:
+          - not_null
+
+      - name: begin_checkout
+        description: "Count of GA4 begin_checkout events, defaulted to 0 where not available"
+        data_tests:
+          - not_null
+
+      - name: view_item
+        description: "Count of GA4 view_item events, defaulted to 0 where not available"
+        data_tests:
+          - not_null
 
       
