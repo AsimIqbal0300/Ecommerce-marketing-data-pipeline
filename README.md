@@ -216,6 +216,8 @@ dbt docs serve
 
 **Filters:** Campaign Type, Channel, Market, Objective — applied consistently across both pages.
 
+<img width="490" height="537" alt="Image" src="https://github.com/user-attachments/assets/10e9e702-82c3-4195-9f88-870670328cd8" />
+
 ---
 
 ## Key Challenges & Decisions
