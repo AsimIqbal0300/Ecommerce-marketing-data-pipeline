@@ -60,12 +60,7 @@ models/
 
 Agencies and in-house marketing teams managing multiple brands or ad accounts face this exact challenge at scale — manually pulling reports from each platform doesn't scale past a handful of accounts. This project reflects the kind of pipeline architecture used to solve that problem properly: automated, tested, and built to grow as more brands or channels are added.
 
-## Future Improvements
 
-- Add orchestration (e.g. Dagster) to monitor and schedule syncs across all sources
-- Incremental models in dbt to reduce processing cost as data volume grows
-- CI/CD pipeline for automated dbt testing on every commit
-- Support for additional channels (Snapchat Ads, TikTok Ads, Apple Ads)
 
 ---
 
